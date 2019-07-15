@@ -2,6 +2,7 @@
 
 import Vue from 'vue';
 import axios from "axios";
+import store from "../store/"
 
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
@@ -9,8 +10,11 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  // timeout: 60 * 1000, // Timeout
+  baseURL: process.env.baseURL || process.env.apiUrl || store.state.baseUrl || "",
+  timeout: 60 * 1000, // Timeout
+  headers: {
+    Authorization: `Bearer ${store.state.authentication.token}`
+  }
   // withCredentials: true, // Check cross-site Access-Control
 };
 

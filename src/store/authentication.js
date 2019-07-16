@@ -9,6 +9,7 @@ export default {
         registerRole: null,
         registerError: null,
         snackbar: false,
+        passwordToMatch: null,
         token: null,
     },
     actions: {
@@ -29,6 +30,8 @@ export default {
                 })
                 .catch( (error) =>{
                     commit('setRegisterError', error.response.data)
+                    commit('setSnackbar')
+
                 })
         }
     },
@@ -53,6 +56,12 @@ export default {
         },
         setRoles(state, roles){
             state.roles = roles
+        },
+        setPasswordToMatch(state, PasswordToMatch){
+            state.passwordToMatch = PasswordToMatch
+        },
+        setSnackbar(state, snackbar){
+            state.snackbar = !snackbar
         }
     }
 }

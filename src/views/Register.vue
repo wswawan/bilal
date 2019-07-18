@@ -76,7 +76,7 @@ import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
     data:() => ({
-        showPass: false,
+        showPass: null,
         emailRules: [
             v => !!v || 'E-mail is required',
             v => /.+@.+/.test(v) || 'E-mail must be valid',
@@ -92,7 +92,6 @@ export default {
     }),
     mounted() {
         this.fetchRoles();
-        
     },
     computed:{
         passwordConfirm(){
@@ -118,14 +117,14 @@ export default {
             'registerRole',
             'registerError',
             'snackbar',
-            'passwordToMatch'
+            'passwordToMatch',
     
         ])
     },
     methods: {
         ...mapActions('authentication', [
             'fetchRoles',
-            'register'
+            'register',
         ]),
         ...mapMutations('authentication', [
             'setToken',
@@ -135,14 +134,14 @@ export default {
             'setRoles',
             'setRegisterError',
             'setSnackbar',
-            'setPasswordToMatch'
+            'setPasswordToMatch',
         ]),
         registerUser(){
             if(this.$refs.form.validate()){
                 this.register()
             }
                 
-        }
+        },
     }
 }
 </script>

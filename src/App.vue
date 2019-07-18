@@ -1,13 +1,17 @@
 <template>
-  <v-app>
+  <v-app id="inspire">
     <Toolbar/>
-    <v-layout text-xs-center align-center>
-      <v-content class="px-3">
-        <v-fade-transition mode="out-in">
-          <router-view/>
-        </v-fade-transition>
+      <v-content>
+        <v-container fluid fill-height>
+          <v-layout justify-center align-center>
+            <v-flex text-xs-center>
+              <v-fade-transition mode="out-in">
+                <router-view/>
+              </v-fade-transition>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-content>
-    </v-layout>
   </v-app>
 </template>
 

@@ -1,4 +1,4 @@
-// import router from "../router";
+import router from "../router";
 
 export default {
     namespaced: true,
@@ -20,6 +20,7 @@ export default {
                 })
         },
         register({commit, state}){
+            commit('setRegisterError', null)
             return axios.post('/register', {
                 email: state.registerEmail,
                 password: state.registerPassword,
@@ -27,13 +28,12 @@ export default {
             })
                 .then(({data}) => {
                     commit('setToken', data.token)
+                    router.push('/')
                 })
                 .catch( (error) =>{
                     commit('setRegisterError', error.response.data)
-                    commit('setSnackbar')
-
                 })
-        }
+        },
     },
     getters:{
         
@@ -62,6 +62,6 @@ export default {
         },
         setSnackbar(state, snackbar){
             state.snackbar = !snackbar
-        }
+        },
     }
 }

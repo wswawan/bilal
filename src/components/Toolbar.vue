@@ -7,16 +7,16 @@
             app
         >
             <v-list>
-                <v-list-tile>
-                <v-list-tile-action>
-                    <v-icon>home</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-title>Home</v-list-tile-title>
+                <v-list-tile to="/">
+                    <v-list-tile-action>
+                        <v-icon>home</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-title>Home</v-list-tile-title>
                 </v-list-tile>
 
                 <v-list-group
-                prepend-icon="account_circle"
-                value="true"
+                    prepend-icon="account_circle"
+                    value="true"
                 >
                 <template v-slot:activator>
                     <v-list-tile>
@@ -67,8 +67,21 @@
                 </v-list-group>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar>
-            <v-toolbar-side-icon></v-toolbar-side-icon>
+        <v-toolbar 
+            app
+        >
+            <v-toolbar-side-icon v-if="!drawer" @click="drawer = !drawer"></v-toolbar-side-icon>
+            <v-btn
+                fab
+                dark
+                right
+                small
+                color="red"
+                v-else
+                @click="drawer = !drawer"
+            >
+                <v-icon>clear</v-icon>
+            </v-btn> 
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn flat to="/">

@@ -1,10 +1,10 @@
 <template>
     <div>
         <v-navigation-drawer
-            stateless
-            value="true"
+            fixed
             v-model="drawer"
             app
+            v-if="isLoggedIn"
         >
             <v-list>
                 <v-list-tile to="/">
@@ -16,7 +16,6 @@
 
                 <v-list-group
                     prepend-icon="account_circle"
-                    value="true"
                 >
                 <template v-slot:activator>
                     <v-list-tile>
@@ -26,7 +25,6 @@
                 <v-list-group
                     no-action
                     sub-group
-                    value="true"
                 >
                     <template v-slot:activator>
                     <v-list-tile>
@@ -70,29 +68,35 @@
         <v-toolbar 
             app
         >
-            <v-toolbar-side-icon v-if="!drawer" @click="drawer = !drawer"></v-toolbar-side-icon>
+            <v-toolbar-side-icon v-if="isLoggedIn && !drawer" @click="drawer = !drawer"></v-toolbar-side-icon>
             <v-btn
                 fab
                 dark
                 right
                 small
                 color="red"
-                v-else
+                v-if="isLoggedIn && drawer"
                 @click="drawer = !drawer"
             >
                 <v-icon>clear</v-icon>
             </v-btn> 
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
-                <v-btn flat to="/">
-                    <v-icon class="mr-2">home</v-icon>
-                    Home
+                <v-btn flat to="/" v-if="isLoggedIn">
+                    <v-icon class="mr-2">fingerprint</v-icon>
+                    Login
                 </v-btn>
             </v-toolbar-items>
             <v-toolbar-items class="hidden-sm-and-down">
-                <v-btn flat to="/register">
-                    <v-icon class="mr-2">account_box</v-icon>
+                <v-btn flat to="/register" v-if="!isLoggedIn">
+                    <v-icon class="mr-2">account_circle</v-icon>
                     Register
+                </v-btn>
+            </v-toolbar-items>
+            <v-toolbar-items class="hidden-sm-and-down">
+                <v-btn flat v-if="isLoggedIn" @click="logout">
+                    <v-icon class="mr-2">exit_to_apps</v-icon>
+                    Logout
                 </v-btn>
             </v-toolbar-items>
         </v-toolbar>
@@ -100,6 +104,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
     name: 'Toolbar',
     data() {
@@ -116,6 +121,16 @@ export default {
             ['Delete', 'delete']
         ]
       }
+    },
+    computed:{
+        ...mapGetters('authentication', [
+            'isLoggedIn'
+        ])
+    },
+    methods:{
+        ...mapActions('authentication', [
+            'logout'
+        ])
     }
 }
 </script>

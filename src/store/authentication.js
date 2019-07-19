@@ -10,7 +10,7 @@ export default {
         registerError: null,
         snackbar: false,
         passwordToMatch: null,
-        token: null,
+        token: localStorage.getItem('access_token') || null,
     },
     actions: {
         fetchRoles({commit}){
@@ -20,27 +20,39 @@ export default {
                 })
         },
         register({commit, state}){
-            commit('setRegisterError', null)
             return axios.post('/register', {
                 email: state.registerEmail,
                 password: state.registerPassword,
                 role: state.registerRole,
             })
-                .then(({data}) => {
-                    commit('setToken', data.token)
+                .then(response => {
+                    const token = response.data.token
+                    localStorage.setItem('access_token', token)
+                    commit('setToken', token)
                     router.push('/')
                 })
                 .catch( (error) =>{
                     commit('setRegisterError', error.response.data)
+                    commit('setSnackbar')
                 })
         },
+        logout({commit}){
+            localStorage.removeItem('access_token')
+            commit('setToken', null)
+            router.push('/')
+        }
     },
     getters:{
-        
+        isLoggedIn(state){
+            return !!state.token
+        }
     },
     mutations:{
         setToken(state, token){
             state.token = token
+        },
+        destroyToken(state){
+            state.token = null
         },
         setRegisterError(state, error){
             state.registerError = error
